@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Yodo1OnlineConfigCaller.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="game_appkey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">test_game</Value>
+    </Setting>
+    <Setting Name="prefix_key" Type="System.String" Scope="User">
+      <Value Profile="(Default)">TestKey</Value>
+    </Setting>
+    <Setting Name="prefix_des" Type="System.String" Scope="User">
+      <Value Profile="(Default)">TestDes</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
