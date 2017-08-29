@@ -12,26 +12,36 @@ namespace Yodo1OnlineConfigCaller
 {
     public partial class Main : Form
     {
+
+
         public Main()
         {
             InitializeComponent();
             TextBoxForAddConfig_TextChanged(null, null);
             ifRandomConfig_CheckedChanged(null, null);
+            this.Size = new Size(790, 730);
+            this.UseWaitCursor = false;
         }
 
         private async void BtnForStartAdd_Click(object sender, EventArgs e)
         {
             int times = 0;
+            int countOfAppkeys = 1;
             Int32.TryParse(TextBoxForPrefixOfTimes.Text, out times);
-            ServiceCaller.Domains domain = RadioBtnFor132.Checked ? ServiceCaller.Domains.DEV : ServiceCaller.Domains.LOCALHOST;
-            await ServiceCaller.MakeMultiAddConfig(domain,TextBoxForGameAppKey.Text, TextBoxForPrefixOfKey.Text, TextBoxForPrefixOfDes.Text, times,(String result)=> {
-                LogOut.AppendText(result + System.Environment.NewLine);
-            });
+            Int32.TryParse(TextBoxForGameCount.Text, out countOfAppkeys);
+            ServiceCaller.Domains domain = RadioBtnFor132.Checked ? ServiceCaller.Domains.DEV : (RadioBtnForProd.Checked ? ServiceCaller.Domains.PROD : ServiceCaller.Domains.LOCALHOST);
+            for (int i = 0; i < countOfAppkeys; i++)
+            {
+                String gameAppKey = TextBoxForGameAppKeyPrefix.Text +( i == 0 ? "" : i.ToString());
+                ServiceCaller.MakeMultiAddConfigSync(domain, gameAppKey, TextBoxForPrefixOfKey.Text, TextBoxForPrefixOfDes.Text, 0, times, (String result) => {
+                    LogOut.AppendText(result + System.Environment.NewLine);
+                });
+            }
         }
 
         private void TextBoxForAddConfig_TextChanged(object sender, EventArgs e)
         {
-            this.BtnForStartAdd.Enabled = !(String.IsNullOrWhiteSpace(this.TextBoxForGameAppKey.Text) ||
+            this.BtnForStartAdd.Enabled = !(String.IsNullOrWhiteSpace(this.TextBoxForGameAppKeyPrefix.Text) ||
                                                                   String.IsNullOrWhiteSpace(this.TextBoxForPrefixOfDes.Text) ||
                                                                   String.IsNullOrWhiteSpace(this.TextBoxForPrefixOfKey.Text) ||
                                                                   String.IsNullOrWhiteSpace(this.TextBoxForPrefixOfTimes.Text));
@@ -41,12 +51,18 @@ namespace Yodo1OnlineConfigCaller
         {
             int countOfKey = 0;
             int timesOfPerKey = 0;
+            int countOfAppkeys = 1;
             Int32.TryParse(TextBoxForModifyKeyCount.Text, out countOfKey);
             Int32.TryParse(TextBoxForModifyPerKeyCount.Text, out timesOfPerKey);
-            ServiceCaller.Domains domain = RadioBtnFor132.Checked ? ServiceCaller.Domains.DEV : ServiceCaller.Domains.LOCALHOST;
-            await ServiceCaller.MakeMultiModifyConfig(domain,TextBoxForGameAppKey.Text, countOfKey, timesOfPerKey, (String result) => {
-                LogOut.AppendText(result + System.Environment.NewLine);
-            });
+            Int32.TryParse(TextBoxForGameCount.Text, out countOfAppkeys);
+            ServiceCaller.Domains domain = RadioBtnFor132.Checked ? ServiceCaller.Domains.DEV :(RadioBtnForProd.Checked ? ServiceCaller.Domains.PROD : ServiceCaller.Domains.LOCALHOST);
+            for (int i = 0; i < countOfAppkeys; i++)
+            {
+                String gameAppKey = TextBoxForGameAppKeyPrefix.Text + (i == 0 ? "" : i.ToString());
+                await ServiceCaller.MakeMultiModifyConfig(domain, gameAppKey, 0, countOfKey, timesOfPerKey, (String result) => {
+                    LogOut.AppendText(result + System.Environment.NewLine);
+                });
+            }
         }
 
         private void ifRandomConfig_CheckedChanged(object sender, EventArgs e)
@@ -62,15 +78,16 @@ namespace Yodo1OnlineConfigCaller
 
         private async void BtnForGetData_Click(object sender, EventArgs e)
         {
-            ServiceCaller.Domains domain = RadioBtnFor132.Checked ? ServiceCaller.Domains.DEV : ServiceCaller.Domains.LOCALHOST;
-            await ServiceCaller.MakeMultiGetConfig(domain,TextBoxForGameAppKey.Text, TextBoxForChannel.Text, TextBoxForVersion.Text, (String result) => {
+            ServiceCaller.Domains domain = RadioBtnFor132.Checked ? ServiceCaller.Domains.DEV : (RadioBtnForProd.Checked ? ServiceCaller.Domains.PROD : ServiceCaller.Domains.LOCALHOST);
+            await ServiceCaller.MakeMultiGetConfig(domain,TextBoxForGameAppKeyPrefix.Text, TextBoxForChannel.Text, TextBoxForVersion.Text, (String result) => {
                 LogOut.AppendText(result + System.Environment.NewLine);
             });
         }
 
-        private void Main_Load(object sender, EventArgs e)
-        {
 
+        private void ClearLogBtn_Click(object sender, EventArgs e)
+        {
+            this.LogOut.Text = String.Empty;
         }
     }
 }

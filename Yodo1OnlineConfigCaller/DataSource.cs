@@ -34,7 +34,7 @@ namespace Yodo1OnlineConfigCaller
 
         private static int getRandomInt(int start = 0, int end = 2)
         {
-            Random ran = new Random();
+            Random ran = new Random(System.DateTime.Now.Millisecond);
             int RandKey = ran.Next(start, end);
             return RandKey;
         }
@@ -57,7 +57,7 @@ namespace Yodo1OnlineConfigCaller
         public static String GetRandomStrValue(int Length)
         {
             System.Text.StringBuilder newRandom = new System.Text.StringBuilder(62);
-            Random rd = new Random();
+            Random rd = new Random(System.DateTime.Now.Millisecond);
             for (int i = 0; i < Length; i++)
             {
                 newRandom.Append(constant[rd.Next(70)]);

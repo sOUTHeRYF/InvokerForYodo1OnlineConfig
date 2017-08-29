@@ -11,7 +11,7 @@ namespace Yodo1OnlineConfigCaller
         public String error_code = "0";
         public String msg = "";
         public int duration = 0;
-        public int httpCode = 200;
+        public int httpCode = 404;
         public List<Object> listData = new List<object>();
         public Dictionary<String, Object> objData = new Dictionary<string, object>();
 
