@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Net.Http;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 namespace Yodo1OnlineConfigCaller
 {
@@ -187,13 +188,14 @@ namespace Yodo1OnlineConfigCaller
             StringContent content = new StringContent(JSONHelper.Serialize(postData));
             try
             {
+                CancellationToken token = new CancellationToken(false);
                 DateTime preTime = System.DateTime.Now;
-                HttpResponseMessage response = await _instance.innerClient.PostAsync(domain + URL_OLCONFIG_ADD,content);
+                HttpResponseMessage response = await _instance.innerClient.PostAsync(domain + URL_OLCONFIG_ADD,content, token);
                 result = await GetResponseInfoSync(response, preTime,DataType.NULL);
             }
             catch (Exception e)
             {
-                result.msg = "服务器异常";
+                result.msg = e.Message;
             }
             if (null != callback)
             {

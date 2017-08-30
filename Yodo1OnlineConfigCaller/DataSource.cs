@@ -9,10 +9,10 @@ namespace Yodo1OnlineConfigCaller
     public class DataSource
     {
         private String[] innerChannelList = new string[] {
-            "UC","360","AppStore","91","ANZHI","OPPO","WANDOUJIA","JinShan","BAIDU","XIAOMI","lenovo","iapppay","CMCC","MUZHIWAN","GooglePlay","Default"
+            "UC","360","AppStore","91","ANZHI","OPPO","WANDOUJIA","JinShan","BAIDU","XIAOMI","lenovo","iapppay","CMCC","MUZHIWAN","GooglePlay","general"
         };
         private String[] innerVersionList = new string[] {
-            "1.0.0","1.0.1","1.2.0","2.0.1","1.0.5","1.3.4","1.3.0","1.2.4","2.0.0","3.1.0","Default"
+            "1.0.0","1.0.1","1.2.0","2.0.1","1.0.5","1.3.4","1.3.0","1.2.4","2.0.0","3.1.0","general"
         };
         private String[] innerTypeList = new string[] {
             "Bool","Int","String"
@@ -66,7 +66,7 @@ namespace Yodo1OnlineConfigCaller
         }
         public static String GetRandomBoolValue()
         {
-            return (getRandomInt(0, 10) == 0).ToString();
+            return (getRandomInt(0, 10) == 0)?"on":"off";
         }
         public static String GetRandomValue(String type)
         {
